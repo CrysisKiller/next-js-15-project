@@ -17,3 +17,26 @@ export async function testDatabaseConnection() {
     return isConnected;
   }
 }
+
+
+export async function addData(collection: string, data: Record<string, any>): Promise<void> {
+    try {
+      const db = client.db();
+      await db.collection(collection).insertOne(data);
+      console.log("Data added successfully:", data);
+    } catch (e) {
+      console.error("Error adding data:", e);
+    }
+  }
+  
+  // Fetch data from the database
+  export async function fetchData(collection: string): Promise<any[]> {
+    try {
+      const db = client.db();
+      const data = await db.collection(collection).find({}).toArray();
+      return data;
+    } catch (e) {
+      console.error("Error fetching data:", e);
+      return [];
+    }
+}
